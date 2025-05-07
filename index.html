@@ -1,137 +1,111 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Absen Pegawai</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absen Rawat Inap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://drive.google.com/uc?export=view&id=12f4GtH3yO6BELIi1XXkDZ4YBl7qOBjcO');
+            background-size: cover;
+            background-position: center;
+        }
 
-    .container {
-      text-align: center;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 400px;
-    }
+        .container {
+            background-color: rgba(255, 255, 255, 0.95); /* transparansi agar tetap terbaca */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
 
-    label, input {
-      display: block;
-      margin: 10px auto;
-      width: 80%;
-    }
+        label, input, select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
 
-    input[readonly] {
-      background-color: #f0f0f0;
-      cursor: not-allowed;
-    }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+        }
 
-    .button-group {
-      margin: 15px 0;
-    }
-
-    .toggle-btn {
-      padding: 10px 20px;
-      margin: 0 10px;
-      border: none;
-      background-color: #ccc;
-      cursor: pointer;
-      border-radius: 5px;
-      color: #000;
-      transition: background-color 0.3s;
-    }
-
-    .toggle-btn.active {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    button.submit-btn {
-      margin-top: 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    button.submit-btn:hover {
-      background-color: #45a049;
-    }
-  </style>
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Absen Pegawai</h2>
+    <div class="container">
+        <h2>Absen Rawat Inap</h2>
 
-    <label for="id">ID Pegawai:</label>
-    <input type="text" id="id" name="id" readonly>
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required readonly>
 
-    <label for="nama">Nama Pegawai:</label>
-    <input type="text" id="nama" name="nama" readonly>
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" required readonly>
 
-    <div class="button-group">
-      <p>Status:</p>
-      <button class="toggle-btn" data-group="status" onclick="setStatus('Masuk', this)">Masuk</button>
-      <button class="toggle-btn" data-group="status" onclick="setStatus('Keluar', this)">Keluar</button>
+        <label for="shift">Shift:</label>
+        <select id="shift" name="shift" required>
+            <option value="1">Shift 1 (08:00 - 16:00)</option>
+            <option value="2">Shift 2 (16:00 - 08:00)</option>
+        </select>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Masuk">Masuk</option>
+            <option value="Keluar">Keluar</option>
+        </select>
+
+        <button onclick="submitAbsensi()">Kirim Absen</button>
     </div>
 
-    <button class="submit-btn" onclick="submitAbsensi()">Kirim Absen</button>
-  </div>
+    <script>
+        // Ambil parameter dari URL
+        function getUrlParams() {
+            var params = new URLSearchParams(window.location.search);
+            var id = params.get("id");
+            var nama = params.get("nama");
+            var shift = params.get("shift");
 
-  <script>
-    let selectedStatus = null;
+            if (id) {
+                document.getElementById("id").value = id;
+            }
+            if (nama) {
+                document.getElementById("nama").value = nama;
+            }
+            if (shift) {
+                document.getElementById("shift").value = shift;
+            }
+        }
 
-    // Mengambil parameter dari URL untuk mengganti nilai ID dan Nama
-    function updateFormFromURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const idParam = urlParams.get('id');
-      const namaParam = urlParams.get('nama');
+        function submitAbsensi() {
+            var id = document.getElementById('id').value;
+            var nama = document.getElementById('nama').value;
+            var status = document.getElementById('status').value;
+            var shift = document.getElementById('shift').value;
 
-      if (idParam) {
-        document.getElementById('id').value = idParam;
-      }
+            var url = `https://script.google.com/macros/s/AKfycbym4OZ6tUX5UamoL4kyv_2LGGCNqytiGlK13FcWa_5D2hPICZEd8bIEVTnaYToSgcNo/exec?id=${id}&nama=${nama}&status=${status}&shift=${shift}`;
 
-      if (namaParam) {
-        document.getElementById('nama').value = namaParam;
-      }
-    }
+            fetch(url)
+                .then(response => response.text())
+                .then(data => alert(data))
+                .catch(error => alert('Error: ' + error));
+        }
 
-    // Panggil fungsi untuk memperbarui form dengan parameter URL
-    updateFormFromURL();
-
-    function setStatus(status, element) {
-      selectedStatus = status;
-      document.querySelectorAll('[data-group="status"]').forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
-    }
-
-    function submitAbsensi() {
-      const id = document.getElementById('id').value;
-      const nama = document.getElementById('nama').value;
-
-      if (!selectedStatus) {
-        alert("Silakan pilih Status terlebih dahulu.");
-        return;
-      }
-
-      const url = `https://script.google.com/macros/s/AKfycbxF8rcC_ekwPDmjmMBBAKrk6HrKKx5sWhQwnWZTwxqL-TLvAXLRpv_dhYi35cEy--mYhQ/exec?id=${id}&nama=${nama}&status=${selectedStatus}`;
-
-      fetch(url)
-        .then(response => response.text())
-        .then(data => alert(data))
-        .catch(error => alert('Error: ' + error));
-    }
-  </script>
+        window.onload = getUrlParams;
+    </script>
 </body>
 </html>
