@@ -92,6 +92,24 @@
   <script>
     let selectedStatus = null;
 
+    // Mengambil parameter dari URL untuk mengganti nilai ID dan Nama
+    function updateFormFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const idParam = urlParams.get('id');
+      const namaParam = urlParams.get('nama');
+
+      if (idParam) {
+        document.getElementById('id').value = idParam;
+      }
+
+      if (namaParam) {
+        document.getElementById('nama').value = namaParam;
+      }
+    }
+
+    // Panggil fungsi untuk memperbarui form dengan parameter URL
+    updateFormFromURL();
+
     function setStatus(status, element) {
       selectedStatus = status;
       document.querySelectorAll('[data-group="status"]').forEach(btn => btn.classList.remove('active'));
