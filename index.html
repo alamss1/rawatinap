@@ -1,68 +1,57 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absen Pegawai</title>
+<body>
+    <div class="container">
+        <h2>Absen Pegawai</h2>
+
+        <label for="id">ID Pegawai:</label>
+        <input type="text" id="id" name="id" value="30" readonly>
+
+        <label for="nama">Nama Pegawai:</label>
+        <input type="text" id="nama" name="nama" value="Rujiati" readonly>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Masuk">Masuk</option>
+            <option value="Keluar">Keluar</option>
+        </select>
+
+        <label for="shift">Shift:</label>
+        <select id="shift" name="shift" required>
+            <option value="1">Shift 1</option>
+            <option value="2">Shift 2</option>
+            <option value="3">Shift 3</option>
+        </select>
+
+        <button onclick="submitAbsensi()">Kirim Absen</button>
+    </div>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         label, input, select {
             display: block;
-            margin-bottom: 10px;
+            margin: 10px auto;
+            width: 80%;
+            max-width: 300px;
         }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
+
+        input[readonly] {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
         }
     </style>
-</head>
-<body>
-    <h2>Absen Pegawai</h2>
-
-    <label for="id">ID Pegawai:</label>
-    <input type="text" id="id" name="id" required>
-
-    <label for="nama">Nama Pegawai:</label>
-    <input type="text" id="nama" name="nama" required>
-
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-        <option value="Masuk">Masuk</option>
-        <option value="Keluar">Keluar</option>
-    </select>
-
-    <label for="shift">Shift:</label>
-    <select id="shift" name="shift" required>
-        <option value="1">Shift 1</option>
-        <option value="2">Shift 2</option>
-        <option value="3">Shift 3</option>
-    </select>
-
-    <button onclick="submitAbsensi()">Kirim Absen</button>
-
-    <script>
-        function submitAbsensi() {
-            var id = document.getElementById('id').value;
-            var nama = document.getElementById('nama').value;
-            var status = document.getElementById('status').value;
-            var shift = document.getElementById('shift').value;
-
-			var url = `https://script.google.com/macros/s/AKfycbxF8rcC_ekwPDmjmMBBAKrk6HrKKx5sWhQwnWZTwxqL-TLvAXLRpv_dhYi35cEy--mYhQ/exec?id=${id}&nama=${nama}&status=${status}&shift=${shift}`;
-
-            fetch(url)
-                .then(response => response.text())
-                .then(data => alert(data))
-                .catch(error => alert('Error: ' + error));
-        }
-    </script>
 </body>
-</html>
