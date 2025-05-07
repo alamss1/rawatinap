@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absen Pegawai</title>
+    <title>Absen Rawat Inap</title>
     <style>
+        /* Menggunakan Flexbox untuk memusatkan konten */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -12,24 +13,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('https://freedesignfile.com/upload/2019/09/Abstract-blue-floral-background-vector.jpg');
-            background-size: cover;
-            background-position: center;
+            background-color: #f0f0f0;
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.6); /* 60% putih */
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
+            max-width: 400px; /* Ukuran form maksimal */
         }
 
         label, input, select {
@@ -55,7 +48,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Absen Pegawai</h2>
+        <h2>Absen Rawat Inap</h2>
 
         <label for="id">ID:</label>
         <input type="text" id="id" name="id" required readonly>
@@ -69,6 +62,7 @@
             <option value="2">Shift 2 (16:00 - 08:00)</option>
         </select>
 
+        <!-- Status moved below Shift -->
         <label for="status">Status:</label>
         <select id="status" name="status" required>
             <option value="Masuk">Masuk</option>
@@ -79,7 +73,7 @@
     </div>
 
     <script>
-        // Ambil parameter dari URL
+        // Mendapatkan parameter dari URL
         function getUrlParams() {
             var params = new URLSearchParams(window.location.search);
             var id = params.get("id");
@@ -87,23 +81,24 @@
             var shift = params.get("shift");
 
             if (id) {
-                document.getElementById("id").value = id;
+                document.getElementById("id").value = id; // Mengisi ID Pegawai
             }
             if (nama) {
-                document.getElementById("nama").value = nama;
+                document.getElementById("nama").value = nama; // Mengisi Nama Pegawai
             }
             if (shift) {
-                document.getElementById("shift").value = shift;
+                document.getElementById("shift").value = shift; // Mengisi Shift yang dipilih
             }
         }
 
+        // Fungsi untuk mengirim data absen
         function submitAbsensi() {
             var id = document.getElementById('id').value;
             var nama = document.getElementById('nama').value;
             var status = document.getElementById('status').value;
             var shift = document.getElementById('shift').value;
 
-            var url = `https://script.google.com/macros/s/AKfycbym4OZ6tUX5UamoL4kyv_2LGGCNqytiGlK13FcWa_5D2hPICZEd8bIEVTnaYToSgcNo/exec=${id}&nama=${nama}&status=${status}&shift=${shift}`;
+            var url = https://script.google.com/macros/s/AKfycbym4OZ6tUX5UamoL4kyv_2LGGCNqytiGlK13FcWa_5D2hPICZEd8bIEVTnaYToSgcNo/exec?id=${id}&nama=${nama}&status=${status}&shift=${shift};
 
             fetch(url)
                 .then(response => response.text())
@@ -111,6 +106,7 @@
                 .catch(error => alert('Error: ' + error));
         }
 
+        // Menjalankan fungsi untuk membaca URL ketika halaman dimuat
         window.onload = getUrlParams;
     </script>
 </body>
