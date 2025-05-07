@@ -1,66 +1,9 @@
-<body>
-  <div class="container">
-    <h2>Absen Pegawai</h2>
-
-    <label for="id">ID Pegawai:</label>
-    <input type="text" id="id" name="id" value="30" readonly>
-
-    <label for="nama">Nama Pegawai:</label>
-    <input type="text" id="nama" name="nama" value="Rujiati" readonly>
-
-    <div class="button-group">
-      <p>Pilih Shift:</p>
-      <button class="toggle-btn" onclick="setShift(1)">Shift 1</button>
-      <button class="toggle-btn" onclick="setShift(2)">Shift 2</button>
-    </div>
-
-    <div class="button-group">
-      <p>Status:</p>
-      <button class="toggle-btn" onclick="setStatus('Masuk')">Masuk</button>
-      <button class="toggle-btn" onclick="setStatus('Keluar')">Keluar</button>
-    </div>
-
-    <button onclick="submitAbsensi()">Kirim Absen</button>
-  </div>
-
-  <script>
-    let selectedShift = null;
-    let selectedStatus = null;
-
-    function setShift(shift) {
-      selectedShift = shift;
-      document.querySelectorAll('.button-group:nth-of-type(2) .toggle-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      event.target.classList.add('active');
-    }
-
-    function setStatus(status) {
-      selectedStatus = status;
-      document.querySelectorAll('.button-group:nth-of-type(3) .toggle-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      event.target.classList.add('active');
-    }
-
-    function submitAbsensi() {
-      const id = document.getElementById('id').value;
-      const nama = document.getElementById('nama').value;
-
-      if (!selectedShift || !selectedStatus) {
-        alert("Silakan pilih Shift dan Status terlebih dahulu.");
-        return;
-      }
-
-      const url = `https://script.google.com/macros/s/AKfycbxF8rcC_ekwPDmjmMBBAKrk6HrKKx5sWhQwnWZTwxqL-TLvAXLRpv_dhYi35cEy--mYhQ/exec?id=${id}&nama=${nama}&status=${selectedStatus}&shift=${selectedShift}`;
-
-      fetch(url)
-        .then(response => response.text())
-        .then(data => alert(data))
-        .catch(error => alert('Error: ' + error));
-    }
-  </script>
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Absen Pegawai</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -77,13 +20,14 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
     }
 
     label, input {
       display: block;
       margin: 10px auto;
       width: 80%;
-      max-width: 300px;
     }
 
     input[readonly] {
@@ -103,6 +47,7 @@
       cursor: pointer;
       border-radius: 5px;
       color: #000;
+      transition: background-color 0.3s;
     }
 
     .toggle-btn.active {
@@ -110,17 +55,78 @@
       color: white;
     }
 
-    button[onclick="submitAbsensi()"] {
+    button.submit-btn {
       margin-top: 20px;
       background-color: #4CAF50;
       color: white;
       border: none;
       padding: 10px 20px;
       cursor: pointer;
+      border-radius: 5px;
     }
 
-    button[onclick="submitAbsensi()"]:hover {
+    button.submit-btn:hover {
       background-color: #45a049;
     }
   </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Absen Pegawai</h2>
+
+    <label for="id">ID Pegawai:</label>
+    <input type="text" id="id" name="id" value="30" readonly>
+
+    <label for="nama">Nama Pegawai:</label>
+    <input type="text" id="nama" name="nama" value="Rujiati" readonly>
+
+    <div class="button-group">
+      <p>Pilih Shift:</p>
+      <button class="toggle-btn" data-group="shift" onclick="setShift(1, this)">Shift 1</button>
+      <button class="toggle-btn" data-group="shift" onclick="setShift(2, this)">Shift 2</button>
+    </div>
+
+    <div class="button-group">
+      <p>Status:</p>
+      <button class="toggle-btn" data-group="status" onclick="setStatus('Masuk', this)">Masuk</button>
+      <button class="toggle-btn" data-group="status" onclick="setStatus('Keluar', this)">Keluar</button>
+    </div>
+
+    <button class="submit-btn" onclick="submitAbsensi()">Kirim Absen</button>
+  </div>
+
+  <script>
+    let selectedShift = null;
+    let selectedStatus = null;
+
+    function setShift(shift, element) {
+      selectedShift = shift;
+      document.querySelectorAll('[data-group="shift"]').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function setStatus(status, element) {
+      selectedStatus = status;
+      document.querySelectorAll('[data-group="status"]').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function submitAbsensi() {
+      const id = document.getElementById('id').value;
+      const nama = document.getElementById('nama').value;
+
+      if (!selectedShift || !selectedStatus) {
+        alert("Silakan pilih Shift dan Status terlebih dahulu.");
+        return;
+      }
+
+      const url = `https://script.google.com/macros/s/AKfycbxF8rcC_ekwPDmjmMBBAKrk6HrKKx5sWhQwnWZTwxqL-TLvAXLRpv_dhYi35cEy--mYhQ/exec?id=${id}&nama=${nama}&status=${selectedStatus}&shift=${selectedShift}`;
+
+      fetch(url)
+        .then(response => response.text())
+        .then(data => alert(data))
+        .catch(error => alert('Error: ' + error));
+    }
+  </script>
 </body>
+</html>
