@@ -1,57 +1,126 @@
 <body>
-    <div class="container">
-        <h2>Absen Pegawai</h2>
+  <div class="container">
+    <h2>Absen Pegawai</h2>
 
-        <label for="id">ID Pegawai:</label>
-        <input type="text" id="id" name="id" value="30" readonly>
+    <label for="id">ID Pegawai:</label>
+    <input type="text" id="id" name="id" value="30" readonly>
 
-        <label for="nama">Nama Pegawai:</label>
-        <input type="text" id="nama" name="nama" value="Rujiati" readonly>
+    <label for="nama">Nama Pegawai:</label>
+    <input type="text" id="nama" name="nama" value="Rujiati" readonly>
 
-        <label for="status">Status:</label>
-        <select id="status" name="status" required>
-            <option value="Masuk">Masuk</option>
-            <option value="Keluar">Keluar</option>
-        </select>
-
-        <label for="shift">Shift:</label>
-        <select id="shift" name="shift" required>
-            <option value="1">Shift 1</option>
-            <option value="2">Shift 2</option>
-            <option value="3">Shift 3</option>
-        </select>
-
-        <button onclick="submitAbsensi()">Kirim Absen</button>
+    <div class="button-group">
+      <p>Pilih Shift:</p>
+      <button class="toggle-btn" onclick="setShift(1)">Shift 1</button>
+      <button class="toggle-btn" onclick="setShift(2)">Shift 2</button>
     </div>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    <div class="button-group">
+      <p>Status:</p>
+      <button class="toggle-btn" onclick="setStatus('Masuk')">Masuk</button>
+      <button class="toggle-btn" onclick="setStatus('Keluar')">Keluar</button>
+    </div>
 
-        .container {
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    <button onclick="submitAbsensi()">Kirim Absen</button>
+  </div>
 
-        label, input, select {
-            display: block;
-            margin: 10px auto;
-            width: 80%;
-            max-width: 300px;
-        }
+  <script>
+    let selectedShift = null;
+    let selectedStatus = null;
 
-        input[readonly] {
-            background-color: #f0f0f0;
-            cursor: not-allowed;
-        }
-    </style>
+    function setShift(shift) {
+      selectedShift = shift;
+      document.querySelectorAll('.button-group:nth-of-type(2) .toggle-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    function setStatus(status) {
+      selectedStatus = status;
+      document.querySelectorAll('.button-group:nth-of-type(3) .toggle-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    function submitAbsensi() {
+      const id = document.getElementById('id').value;
+      const nama = document.getElementById('nama').value;
+
+      if (!selectedShift || !selectedStatus) {
+        alert("Silakan pilih Shift dan Status terlebih dahulu.");
+        return;
+      }
+
+      const url = `https://script.google.com/macros/s/AKfycbxF8rcC_ekwPDmjmMBBAKrk6HrKKx5sWhQwnWZTwxqL-TLvAXLRpv_dhYi35cEy--mYhQ/exec?id=${id}&nama=${nama}&status=${selectedStatus}&shift=${selectedShift}`;
+
+      fetch(url)
+        .then(response => response.text())
+        .then(data => alert(data))
+        .catch(error => alert('Error: ' + error));
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label, input {
+      display: block;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    input[readonly] {
+      background-color: #f0f0f0;
+      cursor: not-allowed;
+    }
+
+    .button-group {
+      margin: 15px 0;
+    }
+
+    .toggle-btn {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      background-color: #ccc;
+      cursor: pointer;
+      border-radius: 5px;
+      color: #000;
+    }
+
+    .toggle-btn.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    button[onclick="submitAbsensi()"] {
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    button[onclick="submitAbsensi()"]:hover {
+      background-color: #45a049;
+    }
+  </style>
 </body>
